@@ -6,11 +6,11 @@ from mysql.connector import Error
 # Update these values to match your local setup
 # ---------------------------------------------
 DB_CONFIG = {
-    'host': 'localhost',
+    'host': 'mysql.railway.internal',
     'port': 3306,
     'user': 'root',
-    'password': '',
-    'database': 'hercare_db'
+    'password': 'yuQwPkPRwxlTVZOFhRLHTvrJUuZyNGcF',
+    'database': 'railway'
 }
 
 

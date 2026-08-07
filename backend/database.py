@@ -1,3 +1,4 @@
+import os
 import mysql.connector
 from mysql.connector import Error
 
@@ -5,13 +6,15 @@ from mysql.connector import Error
 # MySQL connection configuration
 # Update these values to match your local setup
 # ---------------------------------------------
+
 DB_CONFIG = {
-    'host': 'mysql-2ca5b22b-kirthika2058-e3d0.j.aivencloud.com',
-    'port': 11596,
-    'user': 'avnadmin',
-    'password': 'AVNS_nGNshAkSz_xInweMvq-',
-    'database': 'defaultdb'
+    "host": os.getenv("DB_HOST"),
+    "port": int(os.getenv("DB_PORT")),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "database": os.getenv("DB_NAME"),
 }
+
 
 
 def get_db_connection():

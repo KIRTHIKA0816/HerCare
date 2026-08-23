@@ -11,7 +11,7 @@ import '../models/water_model.dart';
 class ApiService {
   // Change to your deployed backend URL.
   // Use 10.0.2.2 for Android emulator, your machine's LAN IP for a physical device.
-  static const String baseUrl = 'http://127.0.0.1:5000/api';
+  static const String baseUrl = 'https://hercare-1.onrender.com';
 
   static Map<String, String> get _headers => {
         'Content-Type': 'application/json',

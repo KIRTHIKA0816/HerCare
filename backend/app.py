@@ -20,10 +20,6 @@ def create_app():
         allow_headers=["Content-Type"]
     )
 
-    # Register blueprints
-    app.register_blueprint(user_bp, url_prefix='/api/users')
-
-    # Register blueprints
     app.register_blueprint(user_bp, url_prefix='/api/users')
     app.register_blueprint(period_bp, url_prefix='/api/periods')
     app.register_blueprint(symptom_bp, url_prefix='/api/symptoms')
@@ -34,7 +30,10 @@ def create_app():
 
     @app.route('/api/health', methods=['GET'])
     def health_check():
-        return {'status': 'ok', 'service': 'HerCare API'}, 200
+        return {
+            'status': 'ok',
+            'service': 'HerCare API'
+        }, 200
 
     return app
 
@@ -42,4 +41,8 @@ def create_app():
 if __name__ == '__main__':
     init_db()
     app = create_app()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(
+        debug=False,
+        host='0.0.0.0',
+        port=5000
+    )

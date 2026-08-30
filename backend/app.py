@@ -12,7 +12,16 @@ from routes.water_routes import water_bp
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+
+    CORS(
+        app,
+        resources={r"/api/*": {"origins": "*"}},
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_headers=["Content-Type"]
+    )
+
+    # Register blueprints
+    app.register_blueprint(user_bp, url_prefix='/api/users')
 
     # Register blueprints
     app.register_blueprint(user_bp, url_prefix='/api/users')

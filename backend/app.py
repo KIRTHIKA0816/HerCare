@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from database import init_db
+
 from routes.user_routes import user_bp
 from routes.period_routes import period_bp
 from routes.symptom_routes import symptom_bp
@@ -13,21 +14,51 @@ from routes.water_routes import water_bp
 def create_app():
     app = Flask(__name__)
 
+    # Enable CORS for Flutter/Web frontend
     CORS(
         app,
         resources={r"/api/*": {"origins": "*"}},
         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allow_headers=["Content-Type"]
+        allow_headers=["Content-Type", "Authorization"]
     )
 
-    app.register_blueprint(user_bp, url_prefix='/api/users')
-    app.register_blueprint(period_bp, url_prefix='/api/periods')
-    app.register_blueprint(symptom_bp, url_prefix='/api/symptoms')
-    app.register_blueprint(pcod_bp, url_prefix='/api/pcod')
-    app.register_blueprint(reminder_bp, url_prefix='/api/reminders')
-    app.register_blueprint(food_bp, url_prefix='/api/food')
-    app.register_blueprint(water_bp, url_prefix='/api/water')
+    # Register API routes
+    app.register_blueprint(
+        user_bp,
+        url_prefix='/api/users'
+    )
 
+    app.register_blueprint(
+        period_bp,
+        url_prefix='/api/periods'
+    )
+
+    app.register_blueprint(
+        symptom_bp,
+        url_prefix='/api/symptoms'
+    )
+
+    app.register_blueprint(
+        pcod_bp,
+        url_prefix='/api/pcod'
+    )
+
+    app.register_blueprint(
+        reminder_bp,
+        url_prefix='/api/reminders'
+    )
+
+    app.register_blueprint(
+        food_bp,
+        url_prefix='/api/food'
+    )
+
+    app.register_blueprint(
+        water_bp,
+        url_prefix='/api/water'
+    )
+
+    # Health check
     @app.route('/api/health', methods=['GET'])
     def health_check():
         return {
@@ -40,9 +71,16 @@ def create_app():
 
 if __name__ == '__main__':
     init_db()
+
     app = create_app()
+
+    # Render provides the PORT environment variable
+    import os
+
+    port = int(os.environ.get('PORT', 5000))
+
     app.run(
-        debug=False,
         host='0.0.0.0',
-        port=5000
+        port=port,
+        debug=False
     )

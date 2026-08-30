@@ -29,28 +29,42 @@ class ApiService {
   }
 
   static Future<UserModel?> register({
-    required String name,
-    required String email,
-    required String password,
-    int? age,
-    double? height,
-    double? weight,
-  }) async {
-    final res = await http.post(
-      Uri.parse('$baseUrl/users/register'),
-      headers: _headers,
-      body: jsonEncode({
-        'name': name,
-        'email': email,
-        'password': password,
-        'age': age,
-        'height': height,
-        'weight': weight,
-      }),
-    );
-    if (res.statusCode == 201) return UserModel.fromJson(jsonDecode(res.body));
+  required String name,
+  required String email,
+  required String password,
+  int? age,
+  double? height,
+  double? weight,
+}) async {
+  try {
+    final response = await http
+        .post(
+          Uri.parse('$baseUrl/users/register'),
+          headers: _headers,
+          body: jsonEncode({
+            'name': name,
+            'email': email,
+            'password': password,
+            'age': age,
+            'height': height,
+            'weight': weight,
+          }),
+        )
+        .timeout(const Duration(seconds: 30));
+
+    print('REGISTER STATUS: ${response.statusCode}');
+    print('REGISTER RESPONSE: ${response.body}');
+
+    if (response.statusCode == 201) {
+      return UserModel.fromJson(jsonDecode(response.body));
+    }
+
+    return null;
+  } catch (e) {
+    print('REGISTER ERROR: $e');
     return null;
   }
+}
 
   static Future<UserModel?> updateProfile(int userId, Map<String, dynamic> fields) async {
     final res = await http.put(
